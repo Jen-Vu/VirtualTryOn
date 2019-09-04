@@ -26,3 +26,12 @@ transformation = transforms.Compose([transforms.Scale(imageSize), transforms.ToT
 dataset = dset.CIFAR10(root = './data', download = True, transform = transformation)
 # use dataLoader to get the images of the training set batch by batch.
 dataloader = torch.utils.data.DataLoader(dataset, batch_size = batchSize, shuffle = True, num_workers = 2)
+
+# Define weight initialisation fcuntion, input being uninitialisaed neural network, nnet
+def weights_init(nnet):
+    classname = nnet.__class__.__name__
+    if classname.find('Conv') != -1:
+        nnet.weight.data.normal_(0.0, 0.02)
+    elif classname.find('BatchNorm') != -1:
+        nnet.weight.data.normal_(1.0, 0.02)
+        nnet.bias.data.fill_(0)
