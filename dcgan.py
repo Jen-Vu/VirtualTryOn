@@ -77,3 +77,7 @@ class Generator(nn.Module):
         # Feed the NN with input and get the output, i.e. 3 channels of the image
         output = self.main(input)
         return output
+
+# Create an instance of Generater
+netG = Generator()
+netG.apply(weights_init)
