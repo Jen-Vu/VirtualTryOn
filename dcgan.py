@@ -163,7 +163,7 @@ for epoch in range(25):
         # Apply the optimizer to update the weights according to how much they are responsible for the loss error of the generator.
         optimizerG.step()
 
-        print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f' % (epoch, 25, i, len(dataloader), errD.data[0], errG.data[0]))
+        print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f' % (epoch, 25, i, len(dataloader), errD.data, errG.data))
         if i % 100 == 0:
             vutils.save_image(real, '%s/real_samples.png' % "./results", normalize = True)
             fake = netG(noise)
