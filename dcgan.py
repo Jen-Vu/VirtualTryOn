@@ -35,3 +35,45 @@ def weights_init(nnet):
     elif classname.find('BatchNorm') != -1:
         nnet.weight.data.normal_(1.0, 0.02)
         nnet.bias.data.fill_(0)
+
+# Define Generator Class
+class Generator(nn.Module):
+    def __init__(self):
+        super(Generator, self).__init__()
+        # Inverse convolution
+        self.main = nn.Sequential(
+                # size of input: 100
+                # size of out channels: 512
+                # size of the kernel: 4 x 4
+                # stride: 1
+                # padding: 1
+                # bias: false
+                # First Inverse Conv
+                nn.ConvTranspose2d(100, 512, 4, 1, 0, bias = False),
+                nn.BatchNorm2d(512),
+                nn.ReLU(True),
+                # 512 is the previous output and this new input
+                # Second Inverse Conv
+                nn.ConvTranspose2d(512, 256, 4, 2, 1, bias = False),
+                nn.BatchNorm2d(256),
+                nn.ReLU(True),
+                # Third Inverse Conv
+                nn.ConvTranspose2d(256, 128, 4, 2, 1, bias = False),
+                nn.BatchNorm2d(128),
+                nn.ReLU(True),
+                # Fourth Inverse Conv
+                nn.ConvTranspose2d(128, 64, 4, 2, 1, bias = False),
+                nn.BatchNorm2d(64),
+                nn.ReLU(True),
+                # out_channel = 3 meaning 3 colour channels
+                nn.ConvTranspose2d(64, 3, 4, 2, 1, bias = False),
+                # render it to be between -1 to 1 using inverse tan
+                nn.Tanh()
+        )
+
+    # For forward propagation
+    # Input: random vector noise to generate image
+    def forward(self, input):
+        # Feed the NN with input and get the output, i.e. 3 channels of the image
+        output = self.main(input)
+        return output
