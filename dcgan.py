@@ -19,8 +19,7 @@ imageSize = 64
 
 # Create transformations
 # Create a list of transformations (scaling, tensor conversion, normalization) to apply to the input images.
-transformation = transforms.Compose([transforms.Scale(imageSize), transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),]) 
-
+transformation = transforms.Compose([transforms.Scale(imageSize), transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),])
 
 # Load dataset
 dataset = dset.CIFAR10(root = './data', download = True, transform = transformation)
@@ -96,10 +95,10 @@ class Discriminator(nn.Module):
                 nn.LeakyReLU(0.2, inplace = True),
                 nn.Conv2d(128, 256, 4, 2, 1, bias = False),
                 nn.BatchNorm2d(256),
-                nn.LeakyReLU(256, inplace = True),
+                nn.LeakyReLU(0.2, inplace = True),
                 nn.Conv2d(256, 512, 4, 2, 1, bias = False),
                 nn.BatchNorm2d(512),
-                nn.LeakyReLU(512, inplace = True),
+                nn.LeakyReLU(0.2, inplace = True),
                 nn.Conv2d(512, 1, 4, 1, 0, bias = False),
                 # use Sigmoid to break the linearity and normalise the result to 0 to 1
                 nn.Sigmoid()
@@ -165,6 +164,6 @@ for epoch in range(25):
 
         print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f' % (epoch, 25, i, len(dataloader), errD.data, errG.data))
         if i % 100 == 0:
-            vutils.save_image(real, '%s/real_samples.png' % "./results", normalize = True)
+            vutils.save_image(real, '%s/real_samples_epoch_%03d.png' % ("./results", epoch), normalize = True)
             fake = netG(noise)
             vutils.save_image(fake.data, '%s/fake_samples_epoch_%03d.png' % ("./results", epoch), normalize = True)
