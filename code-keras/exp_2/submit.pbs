@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -k oe
+#PBS -q gpu
+#PBS -j oe
+#PBS -l select=1:ncpus=24:mem=80GB
+#PBS -l walltime=24:00:00
+#PBS -N vto-experiment_2
+#PBS -P Personal
+
+module load python/2.7.12
+module load tensorflow/1.0+keras
+
+cd /home/users/nus/e0147075/scratch/exp_2
+python main.py /home/users/nus/e0147075/scratch/Tee_1000.h5 > output_log.txt

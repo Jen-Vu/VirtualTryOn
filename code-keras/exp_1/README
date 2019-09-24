@@ -1,0 +1,4 @@
+README
+Experiment 1:
+
+Do not use the groud truth mask input other than in defining loss functions. 

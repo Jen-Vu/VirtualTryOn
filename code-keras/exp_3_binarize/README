@@ -1,0 +1,6 @@
+README
+Experiment 3:
+
+Based on experiment2
+
+Binarize the generated masks with threshold 0.5.
